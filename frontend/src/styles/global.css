@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+@layer base {
+
+  :root {
+    --color-primary: #171717;
+    --color-ink: #171717;
+    --color-body: #4d4d4d;
+    --color-mute: #8f8f8f;
+    --color-faint: #a1a1a1;
+    --color-hairline: #ebebeb;
+    --color-hairline-soft: #f2f2f2;
+    --color-canvas: #fafafa;
+    --color-canvas-elevated: #ffffff;
+    --color-link: #0070f3;
+    --color-error: #ee0000;
+    --color-warning: #f5a623;
+    --color-success: #10b981;
+  }
+
+  body {
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+}
+
+/* Custom utility classes conforming to DESIGN.md */
+.geist-card {
+  background-color: #ffffff;
+  border: 1px solid #ebebeb;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.geist-card:hover {
+  border-color: #d6d6d6;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.geist-card-flat {
+  background-color: #ffffff;
+  border: 1px solid #ebebeb;
+  border-radius: 12px;
+}
+
+.geist-eyebrow {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8f8f8f;
+}
+
+.hero-mesh-bg {
+  background: radial-gradient(circle at 10% 20%, rgba(80, 227, 194, 0.07) 0%, transparent 40%),
+              radial-gradient(circle at 90% 10%, rgba(0, 112, 243, 0.06) 0%, transparent 45%),
+              radial-gradient(circle at 50% 80%, rgba(121, 40, 202, 0.05) 0%, transparent 50%),
+              #fafafa;
+}
+
+/* Pulse animation for real-time live indicator */
+@keyframes pulse-dot {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.animate-pulse-dot {
+  animation: pulse-dot 2s infinite ease-in-out;
+}

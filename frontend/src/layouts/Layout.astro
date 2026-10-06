@@ -1,0 +1,31 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "VitalGuard AI — AI-Powered Remote Patient Monitoring & Early Risk Prediction",
+  description = "Continuous physiological telemetry, personalized rolling baseline learning, XGBoost ML risk scoring, and real-time multi-tier clinical alerts."
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="h-full bg-[#fafafa]">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <!-- Preload fonts for immediate crisp rendering -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  </head>
+  <body class="min-h-full flex flex-col antialiased text-[#171717] bg-[#fafafa]">
+    <slot />
+  </body>
+</html>

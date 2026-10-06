@@ -1,0 +1,140 @@
+{
+  "best_model_name": "XGBoost",
+  "features": [
+    "glucose",
+    "glucose_variability",
+    "blood_pressure_systolic",
+    "blood_pressure_diastolic",
+    "heart_rate",
+    "spo2",
+    "bmi",
+    "activity_steps",
+    "sleep_hours",
+    "age"
+  ],
+  "feature_importances": {
+    "glucose": 0.5167,
+    "activity_steps": 0.0894,
+    "blood_pressure_systolic": 0.074,
+    "age": 0.0633,
+    "glucose_variability": 0.0537,
+    "heart_rate": 0.048,
+    "bmi": 0.0436,
+    "blood_pressure_diastolic": 0.0388,
+    "spo2": 0.0374,
+    "sleep_hours": 0.035
+  },
+  "performance_metrics": {
+    "accuracy": 0.9067,
+    "precision": 0.8434,
+    "recall": 0.8235,
+    "f1_score": 0.8333,
+    "roc_auc": 0.953,
+    "confusion_matrix": [
+      [
+        202,
+        13
+      ],
+      [
+        15,
+        70
+      ]
+    ]
+  },
+  "all_models_comparison": {
+    "Logistic Regression": {
+      "accuracy": 0.9167,
+      "precision": 0.8409,
+      "recall": 0.8706,
+      "f1_score": 0.8555,
+      "roc_auc": 0.9536,
+      "confusion_matrix": [
+        [
+          201,
+          14
+        ],
+        [
+          11,
+          74
+        ]
+      ]
+    },
+    "Random Forest": {
+      "accuracy": 0.91,
+      "precision": 0.8625,
+      "recall": 0.8118,
+      "f1_score": 0.8364,
+      "roc_auc": 0.9477,
+      "confusion_matrix": [
+        [
+          204,
+          11
+        ],
+        [
+          16,
+          69
+        ]
+      ]
+    },
+    "XGBoost": {
+      "accuracy": 0.9067,
+      "precision": 0.8434,
+      "recall": 0.8235,
+      "f1_score": 0.8333,
+      "roc_auc": 0.953,
+      "confusion_matrix": [
+        [
+          202,
+          13
+        ],
+        [
+          15,
+          70
+        ]
+      ]
+    }
+  },
+  "test_sample_size": 300,
+  "train_sample_size": 1200,
+  "clinical_reference_thresholds": {
+    "glucose": {
+      "normal_max": 99.0,
+      "prediabetic_max": 125.0,
+      "diabetic_min": 126.0,
+      "critical_urgent": 180.0
+    },
+    "blood_pressure_systolic": {
+      "normal_max": 119,
+      "elevated_max": 129,
+      "hypertensive_min": 130,
+      "critical_urgent": 160
+    },
+    "blood_pressure_diastolic": {
+      "normal_max": 79,
+      "hypertensive_min": 80,
+      "critical_urgent": 100
+    },
+    "heart_rate": {
+      "normal_min": 60,
+      "normal_max": 90,
+      "tachycardia_min": 100
+    },
+    "spo2": {
+      "normal_min": 95.0,
+      "hypoxia_urgent": 92.0
+    },
+    "bmi": {
+      "healthy_max": 24.9,
+      "overweight_max": 29.9,
+      "obese_min": 30.0
+    },
+    "activity_steps": {
+      "sedentary_max": 4999,
+      "active_min": 8000
+    },
+    "sleep_hours": {
+      "insufficient_max": 5.9,
+      "optimal_min": 7.0
+    }
+  }
+}

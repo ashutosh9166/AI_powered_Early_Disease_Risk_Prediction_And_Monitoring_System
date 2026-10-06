@@ -1,0 +1,604 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="VitalGuard AI — Patient Health Portal">
+  
+  <!-- Top Navigation Header -->
+  <header class="sticky top-0 z-50 bg-[#fafafa]/95 backdrop-blur-md border-b border-[#ebebeb]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      
+      <!-- Brand & Status -->
+      <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#059669] to-[#10b981] flex items-center justify-center text-white shadow-sm ring-1 ring-[#10b981]/30">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h2l1-2.5 2 5.5 1-3h3"></path>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="font-bold text-sm tracking-tight text-[#171717]">VitalGuard AI</span>
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-[#10b981]/10 text-[#059669] border border-[#10b981]/20">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#10b981] mr-1.5 animate-pulse-dot"></span>
+              SENSOR SYNCED
+            </span>
+          </div>
+          <p class="text-[11px] text-[#737373] font-medium hidden sm:block">Patient Remote Health Portal</p>
+        </div>
+      </div>
+
+      <!-- Top-Right: Healthcare Badge & Patient User Info (Replaces Default Logo) -->
+      <div class="flex items-center space-x-3">
+        <!-- Switch to Doctor Dashboard link for reviewers -->
+        <a href="/doctor/dashboard" class="hidden sm:inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium text-[#737373] hover:text-[#171717] hover:bg-white border border-transparent hover:border-[#ebebeb] transition-all">
+          <svg class="w-3.5 h-3.5 mr-1 text-[#059669]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+          Doctor View
+        </a>
+
+        <!-- Patient Avatar & Role Badge -->
+        <div class="flex items-center space-x-2.5 bg-white pl-2.5 pr-3 py-1 rounded-xl border border-[#ebebeb] shadow-xs">
+          <img id="patient-header-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80" alt="Ashutosh" class="w-7 h-7 rounded-full object-cover border border-[#ebebeb]" />
+          <div class="text-left">
+            <div id="patient-header-name" class="text-xs font-bold text-[#171717] leading-tight">Ashutosh</div>
+            <div class="text-[10px] text-[#0070f3] font-medium leading-tight">Patient • Monitored</div>
+          </div>
+          <!-- Sign Out -->
+          <button id="btn-patient-logout" class="ml-1 text-[11px] text-[#737373] hover:text-[#ee0000] p-1 rounded hover:bg-[#f5f5f5] transition-colors" title="Sign Out">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Patient Viewport -->
+  <main class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-6 space-y-5">
+    
+    <!-- Patient Profile Selector & Interactive Simulator Bar -->
+    <div class="p-4 rounded-2xl bg-white border border-[#ebebeb] shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div class="flex items-center space-x-3">
+        <label for="select-patient-profile" class="text-xs font-semibold text-[#171717]">View Profile As:</label>
+        <select id="select-patient-profile" class="text-xs font-mono font-medium bg-[#fafafa] border border-[#ebebeb] rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[#171717]">
+          <option value="P005" selected>Ashutosh (P005) - Moderate</option>
+          <option value="P003">Eleanor Vance (P003) - Urgent Spike</option>
+          <option value="P001">Sarah Chen (P001) - Normal / Active</option>
+          <option value="P002">Robert Miller (P002) - Pre-Diabetic</option>
+          <option value="P004">Marcus Thorne (P004) - Dynamic</option>
+        </select>
+      </div>
+
+      <!-- Quick Scenario Testing Presets for Demonstration -->
+      <div class="flex items-center space-x-1.5 text-xs">
+        <span class="text-[11px] text-[#737373] font-mono mr-1">Test Scenarios:</span>
+        <button id="p-btn-stable" class="px-2.5 py-1 rounded-md text-xs font-medium bg-[#10b981]/10 text-[#059669] hover:bg-[#10b981]/20 transition-colors" title="Trigger Normal Reading">
+          🟢 Stable
+        </button>
+        <button id="p-btn-spike" class="px-2.5 py-1 rounded-md text-xs font-medium bg-[#f5a623]/15 text-[#d97706] hover:bg-[#f5a623]/25 transition-colors" title="Trigger Pre-Diabetic Warning">
+          🟡 Spike
+        </button>
+        <button id="p-btn-critical" class="px-2.5 py-1 rounded-md text-xs font-medium bg-[#ee0000]/10 text-[#dc2626] font-bold hover:bg-[#ee0000]/20 transition-colors" title="Trigger Critical Alert">
+          🔴 Critical
+        </button>
+      </div>
+    </div>
+
+    <!-- Overall Health Status Card (Green / Yellow / Red) -->
+    <div id="patient-status-card" class="p-6 rounded-2xl bg-gradient-to-br from-[#10b981]/15 to-[#10b981]/5 border border-[#10b981]/30 text-center space-y-2.5 shadow-xs transition-all duration-300">
+      <span id="patient-status-badge" class="inline-block px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#059669] text-white shadow-xs">
+        LOOKING GREAT
+      </span>
+      <h2 id="patient-status-title" class="text-xl font-extrabold text-[#171717]">
+        All Vitals in Healthy Range
+      </h2>
+      <p id="patient-friendly-msg" class="text-xs sm:text-sm text-[#4d4d4d] max-w-lg mx-auto leading-relaxed">
+        Your readings match your personalized baseline. Great job maintaining your healthy daily routine!
+      </p>
+      <div class="pt-1 text-[11px] font-mono text-[#737373]">
+        Last synchronized: <span id="sync-time-label">Just now</span> via Wearable Stream
+      </div>
+    </div>
+
+    <!-- Alert Notification Banner (Shown during urgent readings) -->
+    <div id="patient-alert-banner" class="hidden p-4 rounded-2xl bg-[#ee0000]/10 border border-[#ee0000]/30 space-y-2">
+      <div class="flex items-center space-x-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-[#ee0000] animate-ping"></span>
+        <span class="text-xs font-mono font-bold uppercase text-[#ee0000]">HIGH ATTENTION ALERT</span>
+      </div>
+      <p id="patient-alert-text" class="text-xs text-[#171717] font-medium leading-relaxed">
+        Your blood sugar reading is noticeably higher than your usual baseline today.
+      </p>
+      <div id="patient-caregiver-alert-note" class="text-[11px] text-[#4d4d4d] pt-1 border-t border-[#ee0000]/15 flex items-center space-x-1.5">
+        <span>📲</span>
+        <span>A reassuring SMS notice has also been sent to your emergency contact: <strong id="caregiver-name-label">Priya Sharma</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Patient Vitals Cards Grid (Color-Coded Safety Indicators) -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3.5">
+      
+      <!-- 1. Blood Glucose Card -->
+      <div id="card-glucose" class="p-4 rounded-2xl bg-white border border-[#ebebeb] shadow-xs space-y-2 transition-all">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-[#737373]">Blood Sugar</span>
+          <span id="badge-glucose" class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#10b981]/10 text-[#059669]">
+            NORMAL
+          </span>
+        </div>
+        <div class="flex items-baseline space-x-1.5">
+          <span id="val-glucose" class="text-3xl font-bold font-mono text-[#171717]">91</span>
+          <span class="text-xs text-[#737373]">mg/dL</span>
+        </div>
+        <div id="sub-glucose" class="text-[11px] text-[#059669] font-medium">
+          In personal healthy range
+        </div>
+      </div>
+
+      <!-- 2. Blood Pressure Card -->
+      <div id="card-bp" class="p-4 rounded-2xl bg-white border border-[#ebebeb] shadow-xs space-y-2 transition-all">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-[#737373]">Blood Pressure</span>
+          <span id="badge-bp" class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#10b981]/10 text-[#059669]">
+            OPTIMAL
+          </span>
+        </div>
+        <div class="flex items-baseline space-x-1.5">
+          <span id="val-bp" class="text-3xl font-bold font-mono text-[#171717]">118/76</span>
+          <span class="text-xs text-[#737373]">mmHg</span>
+        </div>
+        <div id="sub-bp" class="text-[11px] text-[#059669] font-medium">
+          Healthy cardiovascular bounds
+        </div>
+      </div>
+
+      <!-- 3. Resting Heart Rate Card -->
+      <div id="card-hr" class="p-4 rounded-2xl bg-white border border-[#ebebeb] shadow-xs space-y-2 transition-all">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-[#737373]">Heart Rate</span>
+          <span id="badge-hr" class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#10b981]/10 text-[#059669]">
+            RESTING
+          </span>
+        </div>
+        <div class="flex items-baseline space-x-1.5">
+          <span id="val-hr" class="text-3xl font-bold font-mono text-[#171717]">68</span>
+          <span class="text-xs text-[#737373]">bpm</span>
+        </div>
+        <div id="sub-hr" class="text-[11px] text-[#059669] font-medium">
+          Steady resting rhythm
+        </div>
+      </div>
+
+      <!-- 4. Blood Oxygen SpO2 Card -->
+      <div id="card-spo2" class="p-4 rounded-2xl bg-white border border-[#ebebeb] shadow-xs space-y-2 transition-all">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-[#737373]">Blood Oxygen</span>
+          <span id="badge-spo2" class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#10b981]/10 text-[#059669]">
+            EXCELLENT
+          </span>
+        </div>
+        <div class="flex items-baseline space-x-1.5">
+          <span id="val-spo2" class="text-3xl font-bold font-mono text-[#171717]">98.6</span>
+          <span class="text-xs text-[#737373]">%</span>
+        </div>
+        <div id="sub-spo2" class="text-[11px] text-[#059669] font-medium">
+          Normal arterial saturation
+        </div>
+      </div>
+
+      <!-- 5. Daily Activity / Steps Card -->
+      <div class="p-4 rounded-2xl bg-white border border-[#ebebeb] shadow-xs space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-[#737373]">Daily Steps</span>
+          <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#0070f3]/10 text-[#0070f3]">
+            GOAL: 7,000
+          </span>
+        </div>
+        <div class="flex items-baseline space-x-1.5">
+          <span id="val-steps" class="text-3xl font-bold font-mono text-[#171717]">6,200</span>
+          <span class="text-xs text-[#737373]">steps</span>
+        </div>
+        <div class="w-full bg-[#f0f0f0] rounded-full h-1.5 mt-1 overflow-hidden">
+          <div id="bar-steps" class="bg-[#0070f3] h-1.5 rounded-full" style="width: 88%"></div>
+        </div>
+      </div>
+
+      <!-- 6. Sleep Duration Card -->
+      <div class="p-4 rounded-2xl bg-white border border-[#ebebeb] shadow-xs space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-[#737373]">Sleep Duration</span>
+          <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#7928ca]/10 text-[#7928ca]">
+            RESTFUL
+          </span>
+        </div>
+        <div class="flex items-baseline space-x-1.5">
+          <span id="val-sleep" class="text-3xl font-bold font-mono text-[#171717]">7.2</span>
+          <span class="text-xs text-[#737373]">hours</span>
+        </div>
+        <div class="text-[11px] text-[#737373]">
+          Good sleep restoration
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Recent AI Feedback Card (Simple, non-clinical language) -->
+    <div class="p-5 rounded-2xl bg-white border border-[#ebebeb] shadow-xs space-y-3">
+      <div class="flex items-center justify-between pb-2 border-b border-[#f5f5f5]">
+        <div class="flex items-center space-x-2">
+          <div class="w-6 h-6 rounded-lg bg-[#0070f3]/10 text-[#0070f3] flex items-center justify-center">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          </div>
+          <h3 class="text-xs font-bold text-[#171717]">Personalized AI Health Insights</h3>
+        </div>
+        <span class="text-[10px] font-mono text-[#0070f3] bg-[#0070f3]/10 px-2 py-0.5 rounded font-semibold">Plain-Language Summary</span>
+      </div>
+
+      <p id="ai-plain-feedback" class="text-xs text-[#171717] leading-relaxed font-medium">
+        "Your blood sugar was higher than usual after lunch. Remember to stay hydrated."
+      </p>
+
+      <ul id="ai-reasons-list" class="text-xs text-[#4d4d4d] space-y-1.5 list-disc list-inside">
+        <li>Your readings are matching your normal baseline average today.</li>
+        <li>Your activity level is on track for your daily health goal.</li>
+      </ul>
+    </div>
+
+    <!-- Actionable Health Tips Right Now -->
+    <div class="p-5 rounded-2xl bg-gradient-to-br from-[#0070f3]/5 to-transparent border border-[#0070f3]/20 space-y-2.5">
+      <div class="text-xs font-bold text-[#0070f3]">Recommended Healthy Steps:</div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-[#171717]">
+        <div class="p-2.5 rounded-xl bg-white border border-[#ebebeb] flex items-center space-x-2">
+          <span class="text-lg">💧</span>
+          <div>
+            <div class="font-bold">Stay Hydrated</div>
+            <div class="text-[10px] text-[#737373]">Drink a fresh glass of water</div>
+          </div>
+        </div>
+        <div class="p-2.5 rounded-xl bg-white border border-[#ebebeb] flex items-center space-x-2">
+          <span class="text-lg">🚶‍♂️</span>
+          <div>
+            <div class="font-bold">Light Walk</div>
+            <div class="text-[10px] text-[#737373]">10-15 minutes after meals</div>
+          </div>
+        </div>
+        <div class="p-2.5 rounded-xl bg-white border border-[#ebebeb] flex items-center space-x-2">
+          <span class="text-lg">🩺</span>
+          <div>
+            <div class="font-bold">Clinician Synced</div>
+            <div class="text-[10px] text-[#737373]">Dr. Alex Carter monitoring</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Privacy & Consent Management Section -->
+    <div class="p-5 rounded-2xl border border-[#ebebeb] bg-white space-y-3 shadow-xs">
+      <div class="flex items-center justify-between">
+        <span class="text-xs font-bold text-[#171717]">Privacy & Consent Settings</span>
+        <span class="text-[10px] font-mono text-[#059669] bg-[#10b981]/10 px-2 py-0.5 rounded font-semibold">256-Bit Encrypted</span>
+      </div>
+      <p class="text-[11px] text-[#737373] leading-relaxed">
+        You retain full ownership of your physiological telemetry. You can toggle AI risk scoring or telemetry streaming at any time.
+      </p>
+
+      <div class="space-y-2.5 pt-1 text-xs">
+        <label class="flex items-center justify-between p-2 rounded-lg bg-[#fafafa] cursor-pointer hover:bg-[#f5f5f5] transition-colors">
+          <span class="text-[#171717] font-medium">Share Continuous Wearable Telemetry</span>
+          <input type="checkbox" id="consent-telemetry" checked class="rounded text-[#171717] focus:ring-0" />
+        </label>
+        <label class="flex items-center justify-between p-2 rounded-lg bg-[#fafafa] cursor-pointer hover:bg-[#f5f5f5] transition-colors">
+          <span class="text-[#171717] font-medium">Enable AI Early Disease Risk Scoring</span>
+          <input type="checkbox" id="consent-ai" checked class="rounded text-[#171717] focus:ring-0" />
+        </label>
+        <label class="flex items-center justify-between p-2 rounded-lg bg-[#fafafa] cursor-pointer hover:bg-[#f5f5f5] transition-colors">
+          <span class="text-[#171717] font-medium">Automated Emergency Caregiver Alerts</span>
+          <input type="checkbox" id="consent-caregiver" checked class="rounded text-[#171717] focus:ring-0" />
+        </label>
+      </div>
+
+      <div class="flex items-center justify-between pt-1">
+        <span id="consent-save-label" class="text-[11px] font-mono text-[#059669]"></span>
+        <button id="btn-save-consent" class="py-2 px-4 rounded-xl text-xs font-semibold bg-[#171717] text-white hover:bg-black transition-colors shadow-xs">
+          Save Consent Preferences
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Client-Side Reactive JavaScript Application -->
+  <script is:inline>
+    const API_BASE = "http://localhost:8000";
+
+    const patientsDirectory = {
+      "P005": {
+        name: "Ashutosh",
+        age: 42,
+        gender: "Male",
+        avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80",
+        caregiver: "Priya Sharma",
+        caregiver_contact: "+1-555-017-8821",
+        tier: "Moderate",
+        vitals: { glucose: 134.5, bp_sys: 132, bp_dia: 84, hr: 75, spo2: 97.4, steps: 6200, sleep: 6.8 },
+        baseline: { glucose: 110.0, bp_sys: 124, hr: 70 }
+      },
+      "P003": {
+        name: "Eleanor Vance",
+        age: 65,
+        gender: "Female",
+        avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80",
+        caregiver: "David Vance (Son)",
+        caregiver_contact: "+1-555-019-2834",
+        tier: "Urgent",
+        vitals: { glucose: 194.5, bp_sys: 158, bp_dia: 96, hr: 86, spo2: 94.2, steps: 1600, sleep: 5.1 },
+        baseline: { glucose: 158.0, bp_sys: 142, hr: 78 }
+      },
+      "P001": {
+        name: "Sarah Chen",
+        age: 29,
+        gender: "Female",
+        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+        caregiver: "Michael Chen",
+        caregiver_contact: "+1-555-014-9281",
+        tier: "Low",
+        vitals: { glucose: 91.0, bp_sys: 114, bp_dia: 74, hr: 64, spo2: 98.8, steps: 8900, sleep: 7.5 },
+        baseline: { glucose: 88.5, bp_sys: 112, hr: 62 }
+      },
+      "P002": {
+        name: "Robert Miller",
+        age: 52,
+        gender: "Male",
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+        caregiver: "Linda Miller",
+        caregiver_contact: "+1-555-018-4729",
+        tier: "Moderate",
+        vitals: { glucose: 126.5, bp_sys: 134, bp_dia: 86, hr: 76, spo2: 96.8, steps: 4200, sleep: 6.0 },
+        baseline: { glucose: 114.0, bp_sys: 128, hr: 72 }
+      },
+      "P004": {
+        name: "Marcus Thorne",
+        age: 38,
+        gender: "Male",
+        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
+        caregiver: "Elena Thorne",
+        caregiver_contact: "+1-555-012-9831",
+        tier: "Low",
+        vitals: { glucose: 98.0, bp_sys: 120, bp_dia: 78, hr: 68, spo2: 98.1, steps: 6900, sleep: 6.8 },
+        baseline: { glucose: 94.0, bp_sys: 118, hr: 66 }
+      }
+    };
+
+    let currentPatientId = "P005";
+    let loggedInPatientName = null;
+
+    // Authentication Guard
+    function enforcePatientAuth() {
+      const stored = localStorage.getItem("vitalguard_auth");
+      if (stored) {
+        try {
+          const auth = JSON.parse(stored);
+          if (auth && auth.user) {
+            loggedInPatientName = auth.user.name;
+            if (auth.user.patient_id) {
+              currentPatientId = auth.user.patient_id;
+              if (!patientsDirectory[currentPatientId]) {
+                patientsDirectory[currentPatientId] = {
+                  name: auth.user.name || "Patient User",
+                  age: 42,
+                  gender: "Patient",
+                  avatar: auth.user.avatar || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80",
+                  caregiver: "Emergency Contact",
+                  caregiver_contact: "+1-555-010-0000",
+                  tier: "Low",
+                  vitals: { glucose: 96.0, bp_sys: 122, bp_dia: 80, hr: 70, spo2: 98.2, steps: 6200, sleep: 7.0 },
+                  baseline: { glucose: 95.0, bp_sys: 120, hr: 68 }
+                };
+                const selectProfile = document.getElementById("select-patient-profile");
+                if (selectProfile) {
+                  const opt = document.createElement("option");
+                  opt.value = currentPatientId;
+                  opt.textContent = `${auth.user.name} (${currentPatientId} - My Account)`;
+                  selectProfile.prepend(opt);
+                }
+              } else if (auth.user.name) {
+                patientsDirectory[currentPatientId].name = auth.user.name;
+              }
+              const selectProfile = document.getElementById("select-patient-profile");
+              if (selectProfile) selectProfile.value = currentPatientId;
+            }
+            document.getElementById("patient-header-name").textContent = auth.user.name;
+            if (auth.user.avatar) {
+              document.getElementById("patient-header-avatar").src = auth.user.avatar;
+            }
+          }
+        } catch (e) {}
+      }
+    }
+
+    // Logout
+    document.getElementById("btn-patient-logout").addEventListener("click", () => {
+      localStorage.removeItem("vitalguard_auth");
+      window.location.href = "/";
+    });
+
+    // Update UI based on active patient profile
+    function updatePatientDisplay(pId) {
+      const p = patientsDirectory[pId] || patientsDirectory["P005"];
+      currentPatientId = pId;
+
+      document.getElementById("patient-header-name").textContent = (loggedInPatientName && pId === currentPatientId) ? p.name : p.name;
+      document.getElementById("patient-header-avatar").src = p.avatar;
+      document.getElementById("caregiver-name-label").textContent = `${p.caregiver} (${p.caregiver_contact})`;
+
+      const v = p.vitals;
+      const b = p.baseline;
+      const gluc = Math.round(v.glucose);
+      const glucDelta = b.glucose ? Math.round(((v.glucose - b.glucose) / b.glucose) * 100) : 0;
+
+      // Update Card Values
+      document.getElementById("val-glucose").textContent = gluc;
+      document.getElementById("val-bp").textContent = `${Math.round(v.bp_sys)}/${Math.round(v.bp_dia)}`;
+      document.getElementById("val-hr").textContent = Math.round(v.hr);
+      document.getElementById("val-spo2").textContent = v.spo2.toFixed(1);
+      document.getElementById("val-steps").textContent = v.steps.toLocaleString();
+      document.getElementById("val-sleep").textContent = v.sleep.toFixed(1);
+      document.getElementById("bar-steps").style.width = `${Math.min(100, Math.round((v.steps / 7000) * 100))}%`;
+
+      // Status Card & Banner
+      const statusCard = document.getElementById("patient-status-card");
+      const statusBadge = document.getElementById("patient-status-badge");
+      const statusTitle = document.getElementById("patient-status-title");
+      const statusMsg = document.getElementById("patient-friendly-msg");
+      const alertBanner = document.getElementById("patient-alert-banner");
+      const alertText = document.getElementById("patient-alert-text");
+      const aiFeedback = document.getElementById("ai-plain-feedback");
+      const aiReasons = document.getElementById("ai-reasons-list");
+
+      // Safety indicators: Glucose
+      const cardGlucose = document.getElementById("card-glucose");
+      const badgeGlucose = document.getElementById("badge-glucose");
+      const subGlucose = document.getElementById("sub-glucose");
+
+      if (gluc >= 160) {
+        // Urgent Red
+        cardGlucose.className = "p-4 rounded-2xl bg-white border-2 border-[#ee0000] shadow-sm space-y-2";
+        badgeGlucose.className = "px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#ee0000]/15 text-[#ee0000]";
+        badgeGlucose.textContent = "ELEVATED";
+        subGlucose.className = "text-[11px] text-[#ee0000] font-bold";
+        subGlucose.textContent = `+${glucDelta}% higher than your baseline`;
+
+        statusCard.className = "p-6 rounded-2xl bg-gradient-to-br from-[#ee0000]/15 to-[#ee0000]/5 border border-[#ee0000]/30 text-center space-y-2.5 shadow-xs transition-all";
+        statusBadge.className = "inline-block px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#ee0000] text-white shadow-xs";
+        statusBadge.textContent = "ACTION RECOMMENDED";
+        statusTitle.textContent = "Blood Sugar Elevated Above Usual Baseline";
+        statusMsg.textContent = `Your sugar reading (${gluc} mg/dL) is higher than usual today. Please drink 1-2 glasses of water, rest, and check in with your doctor or caregiver.`;
+
+        alertBanner.classList.remove("hidden");
+        alertText.textContent = `Your blood sugar surged to ${gluc} mg/dL (+${glucDelta}% above baseline). Our clinical care team has received your telemetry.`;
+
+        aiFeedback.textContent = `"Your blood sugar was higher than usual after lunch. Remember to stay hydrated."`;
+        aiReasons.innerHTML = `
+          <li>Glucose jumped +${glucDelta}% above your typical baseline (${b.glucose} mg/dL).</li>
+          <li>Resting heart rate (${Math.round(v.hr)} bpm) is slightly faster than normal today.</li>
+          <li>A 10-minute relaxing indoor walk and a tall glass of water are recommended.</li>
+        `;
+
+      } else if (gluc >= 115) {
+        // Moderate Yellow
+        cardGlucose.className = "p-4 rounded-2xl bg-white border border-[#f5a623] shadow-xs space-y-2";
+        badgeGlucose.className = "px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#f5a623]/15 text-[#d97706]";
+        badgeGlucose.textContent = "MILD SHIFT";
+        subGlucose.className = "text-[11px] text-[#d97706] font-medium";
+        subGlucose.textContent = `+${glucDelta}% vs your baseline`;
+
+        statusCard.className = "p-6 rounded-2xl bg-gradient-to-br from-[#f5a623]/15 to-[#f5a623]/5 border border-[#f5a623]/30 text-center space-y-2.5 shadow-xs transition-all";
+        statusBadge.className = "inline-block px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#d97706] text-white shadow-xs";
+        statusBadge.textContent = "MODERATE VARIATION";
+        statusTitle.textContent = "Slight Metabolic Shift Detected";
+        statusMsg.textContent = `Your numbers show a slight rise (${gluc} mg/dL). A 15-minute light walk and a tall glass of water will help stabilize your levels.`;
+
+        alertBanner.classList.add("hidden");
+
+        aiFeedback.textContent = `"Your numbers show mild fluctuations today. Keeping up your daily walk will help bring them back to target."`;
+        aiReasons.innerHTML = `
+          <li>Glucose is slightly elevated compared to your normal rolling average.</li>
+          <li>Physical activity is at ${v.steps.toLocaleString()} steps. Aim for 7,000 steps today!</li>
+        `;
+
+      } else {
+        // Normal Green
+        cardGlucose.className = "p-4 rounded-2xl bg-white border border-[#ebebeb] shadow-xs space-y-2";
+        badgeGlucose.className = "px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#10b981]/10 text-[#059669]";
+        badgeGlucose.textContent = "NORMAL";
+        subGlucose.className = "text-[11px] text-[#059669] font-medium";
+        subGlucose.textContent = "In personal healthy range";
+
+        statusCard.className = "p-6 rounded-2xl bg-gradient-to-br from-[#10b981]/15 to-[#10b981]/5 border border-[#10b981]/30 text-center space-y-2.5 shadow-xs transition-all";
+        statusBadge.className = "inline-block px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#059669] text-white shadow-xs";
+        statusBadge.textContent = "LOOKING GREAT";
+        statusTitle.textContent = "All Vitals in Healthy Range";
+        statusMsg.textContent = "Your readings match your personalized baseline. Great job maintaining your healthy daily routine!";
+
+        alertBanner.classList.add("hidden");
+
+        aiFeedback.textContent = `"Your vitals are steady and aligned with your personal baseline. Keep up the excellent work!"`;
+        aiReasons.innerHTML = `
+          <li>Blood sugar (${gluc} mg/dL) is within your personal target range.</li>
+          <li>Great physical activity (${v.steps.toLocaleString()} steps) and restful heart rhythm.</li>
+        `;
+      }
+
+      document.getElementById("sync-time-label").textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    // Switch Patient Selector
+    document.getElementById("select-patient-profile")?.addEventListener("change", (e) => {
+      updatePatientDisplay(e.target.value);
+    });
+
+    // Test Scenario Buttons directly on Patient Screen
+    function applyScenario(type) {
+      const p = patientsDirectory[currentPatientId];
+      if (type === "critical") {
+        p.vitals.glucose = 214.5;
+        p.vitals.bp_sys = 162;
+        p.vitals.hr = 92;
+        p.vitals.spo2 = 93.8;
+      } else if (type === "spike") {
+        p.vitals.glucose = 138.0;
+        p.vitals.bp_sys = 134;
+        p.vitals.hr = 78;
+        p.vitals.spo2 = 96.5;
+      } else {
+        p.vitals.glucose = 91.0;
+        p.vitals.bp_sys = 116;
+        p.vitals.hr = 66;
+        p.vitals.spo2 = 98.8;
+      }
+      updatePatientDisplay(currentPatientId);
+
+      // Also notify backend API
+      fetch(`${API_BASE}/api/patient/${currentPatientId}/vitals`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          glucose: p.vitals.glucose,
+          blood_pressure_systolic: p.vitals.bp_sys,
+          blood_pressure_diastolic: p.vitals.bp_dia,
+          heart_rate: p.vitals.hr,
+          spo2: p.vitals.spo2,
+          activity_steps: p.vitals.steps,
+          sleep_hours: p.vitals.sleep
+        })
+      }).catch(() => {});
+    }
+
+    document.getElementById("p-btn-stable")?.addEventListener("click", () => applyScenario("stable"));
+    document.getElementById("p-btn-spike")?.addEventListener("click", () => applyScenario("spike"));
+    document.getElementById("p-btn-critical")?.addEventListener("click", () => applyScenario("critical"));
+
+    // Save Consent Handler
+    document.getElementById("btn-save-consent")?.addEventListener("click", () => {
+      const label = document.getElementById("consent-save-label");
+      label.textContent = "✓ Preferences encrypted and saved";
+      setTimeout(() => { label.textContent = ""; }, 3000);
+
+      fetch(`${API_BASE}/api/consent`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          patient_id: currentPatientId,
+          consent_given: document.getElementById("consent-ai")?.checked,
+          scopes: ["wearable_telemetry", "ai_risk_scoring"]
+        })
+      }).catch(() => {});
+    });
+
+    // Run on Load
+    document.addEventListener("DOMContentLoaded", () => {
+      enforcePatientAuth();
+      updatePatientDisplay(currentPatientId);
+    });
+  </script>
+</Layout>

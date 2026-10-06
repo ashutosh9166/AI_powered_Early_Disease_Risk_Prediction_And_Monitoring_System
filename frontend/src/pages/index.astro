@@ -1,0 +1,497 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="VitalGuard AI — Medical Portal & Authentication">
+  <!-- Top Navigation Header -->
+  <header class="sticky top-0 z-50 bg-[#fafafa]/95 backdrop-blur-md border-b border-[#ebebeb]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      
+      <!-- Brand & Subtitle (Clean branding, NO capstone text) -->
+      <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#059669] to-[#10b981] flex items-center justify-center text-white shadow-sm ring-1 ring-[#10b981]/30">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h2l1-2.5 2 5.5 1-3h3"></path>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="font-bold text-base tracking-tight text-[#171717]">VitalGuard AI</span>
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-medium bg-[#10b981]/10 text-[#059669] border border-[#10b981]/20">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#10b981] mr-1.5 animate-pulse-dot"></span>
+              RPM ACTIVE
+            </span>
+          </div>
+          <p class="text-[11px] text-[#737373] font-medium hidden sm:block">AI-Powered Remote Patient Monitoring & Early Risk Prediction</p>
+        </div>
+      </div>
+
+      <!-- Top-Right: Quick Jump if already logged in / Status Badge -->
+      <div class="flex items-center space-x-3">
+        <div id="logged-in-shortcut" class="hidden items-center space-x-2 bg-white px-3 py-1.5 rounded-lg border border-[#ebebeb] shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-[#10b981]"></span>
+          <span id="logged-in-shortcut-text" class="text-xs font-medium text-[#171717]">Active Session</span>
+          <a id="logged-in-shortcut-link" href="/doctor/dashboard" class="text-xs text-[#0070f3] hover:underline font-medium">Continue &rarr;</a>
+        </div>
+        
+        <div class="flex items-center space-x-1.5 text-xs text-[#737373] bg-[#f5f5f5] px-2.5 py-1 rounded-md border border-[#ebebeb]">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span>
+          <span class="font-mono text-[11px]" id="backend-status-indicator">Backend: Checking...</span>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Content Viewport -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-10 flex flex-col justify-center">
+    
+    <!-- Hero Header -->
+    <div class="text-center max-w-2xl mx-auto mb-8">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#0070f3]/10 text-[#0070f3] text-xs font-medium mb-3">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+        <span>Evaluation-Ready Prototype • XGBoost & Personalized Baselines</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#171717]">
+        Clinical Intelligence & Continuous Telemetry
+      </h1>
+      <p class="text-sm sm:text-base text-[#737373] mt-2.5 leading-relaxed">
+        Sign in to access the multi-party remote monitoring system. Choose clinician triage or patient mobile view.
+      </p>
+    </div>
+
+    <!-- Auth Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start max-w-4xl mx-auto w-full">
+      
+      <!-- Left Column: One-Click Instant Demo Login (5 cols) -->
+      <div class="lg:col-span-5 space-y-4">
+        
+        <div class="p-6 rounded-2xl bg-gradient-to-b from-white to-[#fafafa] border border-[#ebebeb] shadow-sm space-y-4">
+          <div class="flex items-center space-x-2 pb-3 border-b border-[#f0f0f0]">
+            <div class="w-7 h-7 rounded-lg bg-[#10b981]/15 text-[#059669] flex items-center justify-center">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-[#171717]">Instant Demo Login</h3>
+              <p class="text-[11px] text-[#737373]">1-Click Evaluation Access</p>
+            </div>
+          </div>
+
+          <!-- Doctor Demo Card -->
+          <button id="btn-quick-doctor" type="button" class="w-full text-left p-3.5 rounded-xl border border-[#ebebeb] bg-white hover:border-[#10b981] hover:ring-2 hover:ring-[#10b981]/20 transition-all group shadow-xs">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80" alt="Dr. Alex Carter" class="w-10 h-10 rounded-full object-cover border border-[#ebebeb]" />
+                <div>
+                  <div class="text-xs font-bold text-[#171717] group-hover:text-[#059669] transition-colors">Dr. Alex Carter</div>
+                  <div class="text-[10px] text-[#737373]">Role: Clinician • Doctor Portal</div>
+                </div>
+              </div>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-[#10b981]/10 text-[#059669]">
+                Doctor &rarr;
+              </span>
+            </div>
+            <div class="mt-2.5 pt-2 border-t border-[#f5f5f5] text-[11px] text-[#737373] flex items-center justify-between">
+              <span>doctor@demo.com</span>
+              <span class="font-mono text-[10px] text-[#a3a3a3]">password123</span>
+            </div>
+          </button>
+
+          <!-- Patient Demo Card -->
+          <button id="btn-quick-patient" type="button" class="w-full text-left p-3.5 rounded-xl border border-[#ebebeb] bg-white hover:border-[#0070f3] hover:ring-2 hover:ring-[#0070f3]/20 transition-all group shadow-xs">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80" alt="Ashutosh" class="w-10 h-10 rounded-full object-cover border border-[#ebebeb]" />
+                <div>
+                  <div class="text-xs font-bold text-[#171717] group-hover:text-[#0070f3] transition-colors">Ashutosh</div>
+                  <div class="text-[10px] text-[#737373]">Role: Patient • Mobile App View</div>
+                </div>
+              </div>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-[#0070f3]/10 text-[#0070f3]">
+                Patient &rarr;
+              </span>
+            </div>
+            <div class="mt-2.5 pt-2 border-t border-[#f5f5f5] text-[11px] text-[#737373] flex items-center justify-between">
+              <span>patient@demo.com</span>
+              <span class="font-mono text-[10px] text-[#a3a3a3]">password123</span>
+            </div>
+          </button>
+
+          <p class="text-[11px] text-[#737373] leading-relaxed pt-1">
+            Clicking either demo button automatically verifies credentials with the backend, stores session state, and redirects to that role's protected view.
+          </p>
+        </div>
+
+        <!-- System Architecture Highlights -->
+        <div class="p-4 rounded-xl border border-[#ebebeb] bg-white text-xs space-y-2 text-[#737373]">
+          <div class="font-semibold text-[#171717] flex items-center space-x-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span>
+            <span>Evaluated Features Included:</span>
+          </div>
+          <ul class="space-y-1 text-[11px] list-disc list-inside">
+            <li>Dynamic role-based routing & session protection</li>
+            <li>XGBoost Classifier + SHAP TreeExplainer</li>
+            <li>Personalized rolling baselines (EMA engine)</li>
+            <li>IoT telemetry stream with 3 clinical presets</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Interactive Login & Registration Form (7 cols) -->
+      <div class="lg:col-span-7">
+        <div class="p-6 sm:p-8 rounded-2xl bg-white border border-[#ebebeb] shadow-sm">
+          
+          <!-- Tab Switcher: Sign In vs Register -->
+          <div class="flex items-center bg-[#f5f5f5] p-1 rounded-xl mb-6 text-xs font-medium">
+            <button id="tab-login" type="button" class="flex-1 py-2 rounded-lg text-center font-semibold bg-white text-[#171717] shadow-xs transition-all">
+              Sign In to Existing Account
+            </button>
+            <button id="tab-register" type="button" class="flex-1 py-2 rounded-lg text-center font-medium text-[#737373] hover:text-[#171717] transition-all">
+              Create New Account
+            </button>
+          </div>
+
+          <!-- Alert / Error message container -->
+          <div id="auth-alert" class="hidden mb-4 p-3 rounded-lg text-xs leading-relaxed"></div>
+
+          <!-- Form Element -->
+          <form id="auth-form" class="space-y-4">
+            
+            <!-- Registration Name (Hidden in Login Mode) -->
+            <div id="field-name" class="hidden space-y-1">
+              <label for="input-name" class="block text-xs font-semibold text-[#171717]">Full Name <span class="text-[#ee0000]">*</span></label>
+              <input id="input-name" type="text" placeholder="e.g. Dr. Jane Smith" class="w-full px-3.5 py-2 text-xs rounded-lg border border-[#e5e5e5] focus:outline-none focus:border-[#171717] focus:ring-1 focus:ring-[#171717]" />
+            </div>
+
+            <!-- Role Selector (Doctor vs Patient) -->
+            <div class="space-y-1.5">
+              <label class="block text-xs font-semibold text-[#171717]">Select Role</label>
+              <div class="grid grid-cols-2 gap-3">
+                <label id="role-label-doctor" class="flex items-center justify-between p-3 rounded-xl border border-[#171717] bg-[#fafafa] cursor-pointer text-xs font-medium transition-all">
+                  <div class="flex items-center space-x-2">
+                    <span class="text-base">🩺</span>
+                    <div>
+                      <div class="font-bold text-[#171717]">Doctor</div>
+                      <div class="text-[10px] text-[#737373]">Clinician Dashboard</div>
+                    </div>
+                  </div>
+                  <input type="radio" name="auth-role" value="Doctor" checked class="text-[#171717] focus:ring-0" />
+                </label>
+
+                <label id="role-label-patient" class="flex items-center justify-between p-3 rounded-xl border border-[#e5e5e5] bg-white hover:border-[#d4d4d4] cursor-pointer text-xs font-medium transition-all">
+                  <div class="flex items-center space-x-2">
+                    <span class="text-base">👤</span>
+                    <div>
+                      <div class="font-bold text-[#171717]">Patient</div>
+                      <div class="text-[10px] text-[#737373]">Mobile / Web App</div>
+                    </div>
+                  </div>
+                  <input type="radio" name="auth-role" value="Patient" class="text-[#171717] focus:ring-0" />
+                </label>
+              </div>
+            </div>
+
+            <!-- Email Input -->
+            <div class="space-y-1">
+              <div class="flex items-center justify-between">
+                <label for="input-email" class="block text-xs font-semibold text-[#171717]">Email Address <span class="text-[#ee0000]">*</span></label>
+                <span id="hint-email" class="text-[10px] text-[#a3a3a3]">Demo: doctor@demo.com</span>
+              </div>
+              <input id="input-email" type="email" value="doctor@demo.com" required placeholder="name@hospital.org" class="w-full px-3.5 py-2 text-xs rounded-lg border border-[#e5e5e5] focus:outline-none focus:border-[#171717] focus:ring-1 focus:ring-[#171717] font-mono" />
+            </div>
+
+            <!-- Password Input -->
+            <div class="space-y-1">
+              <div class="flex items-center justify-between">
+                <label for="input-password" class="block text-xs font-semibold text-[#171717]">Password <span class="text-[#ee0000]">*</span></label>
+                <span id="hint-password" class="text-[10px] text-[#a3a3a3]">Demo: password123</span>
+              </div>
+              <input id="input-password" type="password" value="password123" required placeholder="••••••••" class="w-full px-3.5 py-2 text-xs rounded-lg border border-[#e5e5e5] focus:outline-none focus:border-[#171717] focus:ring-1 focus:ring-[#171717]" />
+            </div>
+
+            <!-- Submit Button -->
+            <button id="btn-submit-auth" type="submit" class="w-full mt-2 py-2.5 px-4 rounded-xl text-xs font-semibold text-white bg-[#171717] hover:bg-black transition-colors shadow-xs flex items-center justify-center space-x-2">
+              <span id="btn-submit-label">Sign In & Open Dashboard</span>
+              <svg id="btn-submit-spinner" class="hidden w-3.5 h-3.5 animate-spin text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+            </button>
+
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="border-t border-[#ebebeb] bg-white py-6">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between text-xs text-[#737373] gap-2">
+      <div class="flex items-center space-x-2">
+        <span class="font-semibold text-[#171717]">VitalGuard AI</span>
+        <span>•</span>
+        <span>AI-Powered Remote Patient Monitoring & Early Disease Risk Prediction</span>
+      </div>
+      <div class="font-mono text-[11px] text-[#a3a3a3]">
+        Localhost Evaluation Environment
+      </div>
+    </div>
+  </footer>
+
+  <!-- Client-Side Authentication Logic -->
+  <script is:inline>
+    const API_BASE = "http://localhost:8000";
+    let isRegisterMode = false;
+
+    const tabLogin = document.getElementById("tab-login");
+    const tabRegister = document.getElementById("tab-register");
+    const fieldName = document.getElementById("field-name");
+    const inputName = document.getElementById("input-name");
+    const inputEmail = document.getElementById("input-email");
+    const inputPassword = document.getElementById("input-password");
+    const hintEmail = document.getElementById("hint-email");
+    const hintPassword = document.getElementById("hint-password");
+    const btnSubmit = document.getElementById("btn-submit-auth");
+    const btnSubmitLabel = document.getElementById("btn-submit-label");
+    const btnSubmitSpinner = document.getElementById("btn-submit-spinner");
+    const authAlert = document.getElementById("auth-alert");
+    const roleRadios = document.querySelectorAll('input[name="auth-role"]');
+    const roleDoctor = document.getElementById("role-label-doctor");
+    const rolePatient = document.getElementById("role-label-patient");
+
+    function getSelectedRole() {
+      const checked = document.querySelector('input[name="auth-role"]:checked');
+      return checked ? checked.value : "Doctor";
+    }
+
+    // Check existing session
+    function checkExistingSession() {
+      try {
+        const stored = localStorage.getItem("vitalguard_auth");
+        if (stored) {
+          const auth = JSON.parse(stored);
+          if (auth && auth.user) {
+            const shortcut = document.getElementById("logged-in-shortcut");
+            const shortcutText = document.getElementById("logged-in-shortcut-text");
+            const shortcutLink = document.getElementById("logged-in-shortcut-link");
+            shortcut.classList.remove("hidden");
+            shortcut.classList.add("flex");
+            shortcutText.textContent = `Logged in as ${auth.user.name} (${auth.user.role})`;
+            shortcutLink.href = auth.user.role === "Doctor" ? "/doctor/dashboard" : "/patient/home";
+          }
+        }
+      } catch (e) {}
+    }
+
+    // Ping backend status
+    async function checkBackendHealth() {
+      const indicator = document.getElementById("backend-status-indicator");
+      try {
+        const res = await fetch(`${API_BASE}/`);
+        if (res.ok) {
+          indicator.textContent = "Backend: Online (Port 8000)";
+          indicator.className = "font-mono text-[11px] text-[#059669]";
+        } else {
+          indicator.textContent = "Backend: Error";
+          indicator.className = "font-mono text-[11px] text-[#f5a623]";
+        }
+      } catch (e) {
+        indicator.textContent = "Backend: Offline (Start Backend)";
+        indicator.className = "font-mono text-[11px] text-[#ee0000]";
+      }
+    }
+
+    // Update UI based on role and mode
+    function updateFormState() {
+      const role = getSelectedRole();
+      if (role === "Doctor") {
+        roleDoctor.className = "flex items-center justify-between p-3 rounded-xl border border-[#171717] bg-[#fafafa] cursor-pointer text-xs font-medium transition-all";
+        rolePatient.className = "flex items-center justify-between p-3 rounded-xl border border-[#e5e5e5] bg-white hover:border-[#d4d4d4] cursor-pointer text-xs font-medium transition-all";
+      } else {
+        rolePatient.className = "flex items-center justify-between p-3 rounded-xl border border-[#171717] bg-[#fafafa] cursor-pointer text-xs font-medium transition-all";
+        roleDoctor.className = "flex items-center justify-between p-3 rounded-xl border border-[#e5e5e5] bg-white hover:border-[#d4d4d4] cursor-pointer text-xs font-medium transition-all";
+      }
+
+      if (isRegisterMode) {
+        fieldName.classList.remove("hidden");
+        inputName.required = true;
+        btnSubmitLabel.textContent = "Create Account & Sign In";
+        hintPassword.textContent = "Create a password";
+        if (role === "Doctor") {
+          inputName.placeholder = "e.g. Dr. Jane Smith";
+          inputEmail.placeholder = "e.g. dr.smith@hospital.org";
+          hintEmail.textContent = "Enter doctor email address";
+        } else {
+          inputName.placeholder = "e.g. Sarah Connor";
+          inputEmail.placeholder = "e.g. patient@email.com";
+          hintEmail.textContent = "Enter patient email address";
+        }
+      } else {
+        fieldName.classList.add("hidden");
+        inputName.required = false;
+        btnSubmitLabel.textContent = "Sign In & Open Dashboard";
+        if (role === "Doctor") {
+          hintEmail.textContent = "Demo: doctor@demo.com";
+          hintPassword.textContent = "Demo: password123";
+          inputEmail.placeholder = "doctor@demo.com";
+          if (!inputEmail.value || inputEmail.value === "patient@demo.com") {
+            inputEmail.value = "doctor@demo.com";
+          }
+          if (!inputPassword.value || inputPassword.value === "") {
+            inputPassword.value = "password123";
+          }
+        } else {
+          hintEmail.textContent = "Demo: patient@demo.com";
+          hintPassword.textContent = "Demo: password123";
+          inputEmail.placeholder = "patient@demo.com";
+          if (!inputEmail.value || inputEmail.value === "doctor@demo.com") {
+            inputEmail.value = "patient@demo.com";
+          }
+          if (!inputPassword.value || inputPassword.value === "") {
+            inputPassword.value = "password123";
+          }
+        }
+      }
+    }
+
+    // Role radio toggle styles
+    roleRadios.forEach(radio => {
+      radio.addEventListener("change", () => {
+        updateFormState();
+      });
+    });
+
+    // Tab switching
+    tabLogin.addEventListener("click", () => {
+      isRegisterMode = false;
+      tabLogin.className = "flex-1 py-2 rounded-lg text-center font-semibold bg-white text-[#171717] shadow-xs transition-all";
+      tabRegister.className = "flex-1 py-2 rounded-lg text-center font-medium text-[#737373] hover:text-[#171717] transition-all";
+      authAlert.classList.add("hidden");
+      updateFormState();
+    });
+
+    tabRegister.addEventListener("click", () => {
+      isRegisterMode = true;
+      tabRegister.className = "flex-1 py-2 rounded-lg text-center font-semibold bg-white text-[#171717] shadow-xs transition-all";
+      tabLogin.className = "flex-1 py-2 rounded-lg text-center font-medium text-[#737373] hover:text-[#171717] transition-all";
+      authAlert.classList.add("hidden");
+
+      // Clear demo values when switching to register
+      if (inputEmail.value === "doctor@demo.com" || inputEmail.value === "patient@demo.com") {
+        inputEmail.value = "";
+      }
+      if (inputPassword.value === "password123") {
+        inputPassword.value = "";
+      }
+      updateFormState();
+      inputName.focus();
+    });
+
+    function showAlert(msg, isError = true) {
+      authAlert.classList.remove("hidden");
+      authAlert.textContent = msg;
+      if (isError) {
+        authAlert.className = "mb-4 p-3 rounded-lg text-xs leading-relaxed bg-[#ee0000]/10 text-[#ee0000] border border-[#ee0000]/20";
+      } else {
+        authAlert.className = "mb-4 p-3 rounded-lg text-xs leading-relaxed bg-[#10b981]/10 text-[#059669] border border-[#10b981]/20";
+      }
+    }
+
+    // Direct Login / Register Handler
+    async function executeAuth(email, password, name = "", role = "Doctor") {
+      const cleanEmail = (email || "").trim();
+      const cleanPass = (password || "").trim();
+      const cleanName = (name || "").trim();
+
+      if (!cleanEmail) {
+        showAlert("Please enter an email address.", true);
+        return;
+      }
+      if (!cleanPass) {
+        showAlert("Please enter a password.", true);
+        return;
+      }
+      if (isRegisterMode && !cleanName) {
+        showAlert("Please enter your full name.", true);
+        return;
+      }
+
+      btnSubmitSpinner.classList.remove("hidden");
+      btnSubmit.disabled = true;
+
+      const endpoint = isRegisterMode ? `${API_BASE}/api/auth/register` : `${API_BASE}/api/auth/login`;
+      const payload = isRegisterMode 
+        ? { name: cleanName || (role === "Doctor" ? "Dr. Clinician" : "Patient User"), email: cleanEmail, password: cleanPass, role }
+        : { email: cleanEmail, password: cleanPass };
+
+      try {
+        const resp = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (!resp.ok) {
+          const errData = await resp.json().catch(() => ({ detail: "Authentication failed." }));
+          showAlert(errData.detail || "Authentication request failed.", true);
+          return;
+        }
+
+        const data = await resp.json();
+        // Persist session
+        localStorage.setItem("vitalguard_auth", JSON.stringify(data));
+        showAlert(isRegisterMode ? "Account created successfully! Redirecting..." : "Authentication successful! Redirecting...", false);
+
+        setTimeout(() => {
+          if (data.user.role === "Doctor") {
+            window.location.href = "/doctor/dashboard";
+          } else {
+            window.location.href = "/patient/home";
+          }
+        }, 500);
+
+      } catch (err) {
+        console.warn("Backend API connection failed:", err);
+        showAlert("Could not connect to backend API at http://localhost:8000. Please ensure the backend server is running.", true);
+      } finally {
+        btnSubmitSpinner.classList.add("hidden");
+        btnSubmit.disabled = false;
+      }
+    }
+
+    // Form Submit Event
+    document.getElementById("auth-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const selectedRole = getSelectedRole();
+      executeAuth(inputEmail.value, inputPassword.value, inputName.value, selectedRole);
+    });
+
+    // Quick One-Click Doctor Login
+    document.getElementById("btn-quick-doctor").addEventListener("click", () => {
+      isRegisterMode = false;
+      document.querySelector('input[name="auth-role"][value="Doctor"]').checked = true;
+      updateFormState();
+      inputEmail.value = "doctor@demo.com";
+      inputPassword.value = "password123";
+      executeAuth("doctor@demo.com", "password123", "Dr. Alex Carter", "Doctor");
+    });
+
+    // Quick One-Click Patient Login
+    document.getElementById("btn-quick-patient").addEventListener("click", () => {
+      isRegisterMode = false;
+      document.querySelector('input[name="auth-role"][value="Patient"]').checked = true;
+      updateFormState();
+      inputEmail.value = "patient@demo.com";
+      inputPassword.value = "password123";
+      executeAuth("patient@demo.com", "password123", "Ashutosh", "Patient");
+    });
+
+    // Run on load
+    document.addEventListener("DOMContentLoaded", () => {
+      updateFormState();
+      checkExistingSession();
+      checkBackendHealth();
+    });
+  </script>
+</Layout>

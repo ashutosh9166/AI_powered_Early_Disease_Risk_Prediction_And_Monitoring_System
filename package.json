@@ -1,0 +1,12 @@
+{
+  "name": "vitalguard-ai-root",
+  "private": true,
+  "scripts": {
+    "start": "powershell -NoProfile -ExecutionPolicy Bypass -File ./run.ps1",
+    "dev": "powershell -NoProfile -ExecutionPolicy Bypass -File ./run.ps1",
+    "start:bash": "bash run.sh",
+    "test": ".venv\\Scripts\\python.exe backend/test_backend.py",
+    "test:backend": ".venv\\Scripts\\python.exe backend/test_backend.py",
+    "build:frontend": "npm run --prefix frontend build"
+  }
+}
